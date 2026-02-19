@@ -359,7 +359,6 @@
             padding: 20px 24px 20px 24px;
             border-radius: 12px;
             border: 2px solid #d4c4a8;
-            overflow: hidden; /* FIX: prevent bars from going outside */
             position: relative;
         }
 
@@ -1088,10 +1087,10 @@
             const chart = document.getElementById('weeklyChart');
             chart.innerHTML = '';
 
-            // Get the actual rendered height of the chart container
-            const containerHeight = chart.clientHeight || 240;
-            // Max bar height = container height minus a small top buffer
-            const MAX_BAR_HEIGHT = containerHeight - 10;
+            // Read the actual rendered height from CSS (handles both desktop 240px and mobile 160px/130px)
+            const CHART_HEIGHT = chart.getBoundingClientRect().height || 240;
+            // Leave 8px headroom at top so tallest bar doesn't touch the ceiling
+            const MAX_BAR_HEIGHT = CHART_HEIGHT - 8;
 
             const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
             const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
